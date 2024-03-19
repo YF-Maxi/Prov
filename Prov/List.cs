@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 class List
 {
-    public Node head { get; private set; }
+    //Private set so that it can't be accessed outside the class
+    private Node head;
 
     public List()
     {
@@ -291,7 +292,8 @@ class List
         //While the current one exists, print its value then set the current node to the next one. Will stop if the next node (that becomes the current) equals null, which means that it doesn't exist.
         while (current != null)
         {
-            //Creates an array with two strings, the first one being the first half of the value's variable type that just contains the word "System", and the second half being the variable type I want to print in the console. 
+            //Creates an array with two strings, the first one being the first half of the value's variable type that just contains the
+            //word "System", and the second half being the variable type I want to print in the console. 
             string type = current.value.GetType().ToString();
             if (type.Contains("."))
             {
