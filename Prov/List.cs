@@ -91,7 +91,7 @@ class List
     /// <summary>
     /// Sorts the list.
     /// </summary>
-    public void Sort() //Temporary sloppy solution. Will make my own sorting if I have time
+    public void SortOld() //Temporary sloppy solution. Will make my own sorting if I have time
     {
         //Can't sort an empty list or a list with only one item
         if (GetLength() == 0 || GetLength() == 1)
@@ -209,6 +209,85 @@ class List
         }
     }
 
+    public void BubbleSort()
+    {
+        //Abort if there only is one or no values
+        if (GetLength() < 2)
+        {
+            return;
+        }
+
+        //Move along the list the same amount of times as values in the list
+        for (int i = 0; i < GetLength(); i++)
+        {
+            Node current = head;
+            //Go through the list to compare each value with the next one
+            while (current != null && current.next != null)
+            {
+                //CompareTo returns negative if current.value goes before current.next.value if current.value is before in alphabetical order
+                if (Convert.ToString(current.value).CompareTo(Convert.ToString(current.next.value)) < 0)
+                {
+                    SwapNodes(current, current.next); //Swap place of the nodes
+                }
+                current = current.next;
+            }
+        }
+    }
+    public void SwapNodes(Node node1, Node node2)
+    {
+        //Abort if they are the same
+        if (node1.value == node2.value)
+        {
+            return;
+        }
+
+        //Find the previous node to node1
+        Node previousNode1 = null;
+        Node current = head;
+        while (current != null && current != node1)
+        {
+            previousNode1 = current;
+            current = current.next;
+        }
+
+        //Find the previous node to node2
+        Node previousNode2 = null;
+        current = head;
+        while (current != null && current != node2)
+        {
+            previousNode2 = current;
+            current = current.next;
+        }
+
+        //abort if node doesn't exist
+        if (current == null)
+        {
+            return;
+        }
+
+        //Update pointers from the previous nodes
+        if (previousNode1 != null) //If it's not first in the list, make the next one node2
+        {
+            previousNode1.next = node2;
+        }
+        else { head = node2; }//Make node2 head becuase there was no previous node
+
+        if (previousNode2 != null)
+        {
+            previousNode2.next = node1;
+        }
+        else { head = node1; }
+
+        //Handles the exception when one of the nodes are the head
+        if (node1 == head) { head = node2; }
+        else if (node2 == head) { head = node1; }
+
+        //Temporary node keeps track of node1.next so it can be replaced by node2.next and be used later, swapping the nodes next position
+        Node temporaryNode = node1.next;
+        node1.next = node2.next;
+        node2.next = temporaryNode;
+    }
+
     /// <summary>
     /// Remove position in the list, 0 is first. Returns a bool.
     /// </summary>
@@ -219,10 +298,7 @@ class List
         Node current = head;
 
         //Abort if the index is negative
-        if (index < 0)
-        {
-            return false;
-        }
+        if (index < 0) { return false; }
 
         //Move along the list index amount of timnes
         for (int i = 0; i < index; i++)

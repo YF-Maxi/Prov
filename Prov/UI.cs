@@ -22,7 +22,7 @@ namespace Prov
         private void MainMenu()
         {
             Console.Clear();
-            Console.WriteLine("(Use number keys 1-7)");
+            Console.WriteLine("(Use number keys 1-8)");
             Console.Write("1. Add value at the end of the list\n2. Add value at index\n3. Remove value at index\n4. Get list length\n5. Sort list\n6. Print list\n7. Clear list\n8. Exit program");
             switch (Console.ReadKey().Key)
             {
@@ -69,7 +69,7 @@ namespace Prov
         private void ChooseValueType(bool normalAdd) //If normalAdd is true, the value will get added with the regular add function. If false, it will use the add by index function
         {
             Console.Clear();
-            Console.WriteLine("(Use number keys 1-7)");
+            Console.WriteLine("(Use number keys 1-6)");
             Console.Write("Select which type of variable to add:\n1. string\n2. integer\n3. float\n4. double\n5. long\n6. boolean");
             switch (Console.ReadKey().Key)
             {
@@ -198,7 +198,7 @@ namespace Prov
         private void SortList()
         {
             Console.Clear();
-            list.Sort();
+            list.BubbleSort();
             Console.WriteLine("List sorted.\n\n[Press any key to continue]");
             Console.ReadKey();
         }
