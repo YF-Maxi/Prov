@@ -91,125 +91,7 @@ class List
     /// <summary>
     /// Sorts the list.
     /// </summary>
-    public void SortOld() //Temporary sloppy solution. Will make my own sorting if I have time
-    {
-        //Can't sort an empty list or a list with only one item
-        if (GetLength() == 0 || GetLength() == 1)
-        {
-            return;
-        }
-
-        //Creating a list for each variable type and one (object) for things that don't fit in all the others
-        List<string> stringList = new List<string>();
-        List<int> intList = new List<int>();
-        List<float> floatList = new List<float>();
-        List<double> doubleList = new List<double>();
-        List<bool> boolList = new List<bool>();
-        List<long> longList = new List<long>();
-        List<object> objectList = new List<object>();
-
-        Node current = head;
-
-        //Loops through the whole linked list and places each value in the corresponding list
-        while (current != null)
-        {
-            if (current.value is string)
-            {
-                stringList.Add((string)current.value);
-            }
-            else if (current.value is int)
-            {
-                intList.Add((int)current.value);
-            }
-            else if (current.value is float)
-            {
-                floatList.Add((float)current.value);
-            }
-            else if (current.value is double)
-            {
-                doubleList.Add((double)current.value);
-            }
-            else if (current.value is bool)
-            {
-                boolList.Add((bool)current.value);
-            }
-            else if (current.value is long)
-            {
-                longList.Add((long)current.value);
-            }
-            else
-            {
-                objectList.Add((object)current.value);
-            }
-
-            current = current.next;
-        }
-
-        //Sorts the lists
-        stringList.Sort();
-        intList.Sort();
-        doubleList.Sort();
-        boolList.Sort();
-        longList.Sort();
-        floatList.Sort();
-        objectList.Sort();
-
-        //Clears this linked list so new values can be added
-        Clear();
-
-        //Checks which lists have something in them, then adds all values in them to the linked list
-        if (stringList.Count > 0)
-        {
-            foreach (string string_ in stringList)
-            {
-                AddValue(string_);
-            }
-        }
-        if (intList.Count > 0)
-        {
-            foreach(int int_ in intList)
-            {
-                AddValue(int_);
-            }
-        }
-        if (floatList.Count > 0)
-        {
-            foreach (float float_ in floatList)
-            {
-                AddValue(float_);
-            }
-        }
-        if (doubleList.Count > 0)
-        {
-            foreach (double double_ in doubleList)
-            {
-                AddValue(double_);
-            }
-        }
-        if (longList.Count > 0)
-        {
-            foreach(long long_ in longList)
-            {
-                AddValue(long_);
-            }
-        }
-        if (boolList.Count > 0)
-        {
-            foreach (bool bool_ in boolList)
-            {
-                AddValue(bool_);
-            }
-        }
-        if (objectList.Count > 0)
-        {
-            foreach(object object_ in objectList)
-            {
-                AddValue(object_);
-            }
-        }
-    }
-
-    public void BubbleSort()
+    public void Sort()
     {
         //Abort if there only is one or no values
         if (GetLength() < 2)
@@ -224,8 +106,15 @@ class List
             //Go through the list to compare each value with the next one
             while (current != null && current.next != null)
             {
+                if (double.TryParse(Convert.ToString(current.value), out double result1) && double.TryParse(Convert.ToString(current.next.value), out double result2))
+                {
+                    if (Convert.ToDouble(current.value).CompareTo(Convert.ToDouble(current.next.value)) < 0)
+                    {
+                        SwapNodes(current, current.next); //Swap place of the nodes
+                    }
+                }
                 //CompareTo returns negative if current.value goes before current.next.value if current.value is before in alphabetical order
-                if (Convert.ToString(current.value).CompareTo(Convert.ToString(current.next.value)) < 0)
+                else if (Convert.ToString(current.value).CompareTo(Convert.ToString(current.next.value)) < 0)
                 {
                     SwapNodes(current, current.next); //Swap place of the nodes
                 }
@@ -233,14 +122,9 @@ class List
             }
         }
     }
+
     public void SwapNodes(Node node1, Node node2)
     {
-        //Abort if they are the same
-        if (node1.value == node2.value)
-        {
-            return;
-        }
-
         //Find the previous node to node1
         Node previousNode1 = null;
         Node current = head;
@@ -259,12 +143,6 @@ class List
             current = current.next;
         }
 
-        //abort if node doesn't exist
-        if (current == null)
-        {
-            return;
-        }
-
         //Update pointers from the previous nodes
         if (previousNode1 != null) //If it's not first in the list, make the next one node2
         {
@@ -277,10 +155,6 @@ class List
             previousNode2.next = node1;
         }
         else { head = node1; }
-
-        //Handles the exception when one of the nodes are the head
-        if (node1 == head) { head = node2; }
-        else if (node2 == head) { head = node1; }
 
         //Temporary node keeps track of node1.next so it can be replaced by node2.next and be used later, swapping the nodes next position
         Node temporaryNode = node1.next;

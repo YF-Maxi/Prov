@@ -198,7 +198,7 @@ namespace Prov
         private void SortList()
         {
             Console.Clear();
-            list.BubbleSort();
+            list.Sort();
             Console.WriteLine("List sorted.\n\n[Press any key to continue]");
             Console.ReadKey();
         }
