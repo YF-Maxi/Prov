@@ -106,17 +106,19 @@ class List
             //Go through the list to compare each value with the next one
             while (current != null && current.next != null)
             {
+                //Checking if converting the values to double is possible. Using double instead of float in case the user inputs a very large value.
                 if (double.TryParse(Convert.ToString(current.value), out double result1) && double.TryParse(Convert.ToString(current.next.value), out double result2))
                 {
-                    if (Convert.ToDouble(current.value).CompareTo(Convert.ToDouble(current.next.value)) < 0)
+                    //Converting the values to double and comparing them. Without this part, numbers soemetimes get sorted wrong
+                    if (Convert.ToDouble(current.value).CompareTo(Convert.ToDouble(current.next.value)) > 0)
                     {
                         SwapNodes(current, current.next); //Swap place of the nodes
                     }
                 }
-                //CompareTo returns negative if current.value goes before current.next.value if current.value is before in alphabetical order
-                else if (Convert.ToString(current.value).CompareTo(Convert.ToString(current.next.value)) < 0)
+                //If converting to double wasn't possible, it converts them to strings instead and compares them
+                else if (Convert.ToString(current.value).CompareTo(Convert.ToString(current.next.value)) > 0)
                 {
-                    SwapNodes(current, current.next); //Swap place of the nodes
+                    SwapNodes(current, current.next);
                 }
                 current = current.next;
             }
